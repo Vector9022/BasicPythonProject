@@ -15,8 +15,8 @@
 ```bash
 git clone https://github.com/Vector9022/BasicPythonProject.git
 cd BasicPythonProject
-.\.venv.cmd
-.\.run.cmd
+.\_venv.py
+.\_run.py
 ```
 
 ## 📦 Установка
