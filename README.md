@@ -7,6 +7,10 @@
 ## ✨ Возможности
 - **Предоставляет следующие возможности**
 
+## 🧩 Зависимости
+- **Python 3.11**
+- **Библиотеки из `requirements.txt`**
+
 ## 📦 Установка и запуск
 ```bash
 git clone https://github.com/Vector9022/BasicPythonProject.git
