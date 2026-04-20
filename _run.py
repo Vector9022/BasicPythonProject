@@ -1,13 +1,11 @@
 from pathlib import Path
-from _venv import EnsureVenv, RunInVenv
+from _venv import BuildEnv, EnsureVenv, EnsureMain, VENV_PYTHON
+import subprocess
 
 MAIN_SCRIPT = Path("src") / "Main.py"
 
-if not MAIN_SCRIPT.exists():
-    print(f"Файл {MAIN_SCRIPT} не найден.")
-    input("Нажмите Enter для выхода...")
-    exit(1)
-
 EnsureVenv()
-RunInVenv([str(MAIN_SCRIPT)])
+EnsureMain(MAIN_SCRIPT)
+
+subprocess.call([str(VENV_PYTHON), str(MAIN_SCRIPT)], env=BuildEnv())
 input("\nНажмите Enter для выхода...")

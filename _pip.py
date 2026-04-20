@@ -1,6 +1,8 @@
 import localLib.RAA as RAA; RAA.RunAsAdmin()
-from _venv import EnsureVenv, RunInVenv, FreezeRequirements
+from _venv import BuildEnv, EnsureVenv, VENV_PYTHON
+import subprocess
 
+env = BuildEnv()
 EnsureVenv()
 
 print('[INFO] Доступные команды: install | uninstall | upgrade')
@@ -16,13 +18,18 @@ while True:
         arg = parts[1] if len(parts) > 1 else ""
 
         if cmd == "upgrade":
-            RunInVenv(["-m", "pip", "install", "--upgrade", arg])
+            subprocess.call([str(VENV_PYTHON), *["-m", "pip", "install", "--upgrade", arg]], env=env)
         elif cmd in ("install", "uninstall"):
-            RunInVenv(["-m", "pip", cmd, arg])
+            subprocess.call([str(VENV_PYTHON), *["-m", "pip", cmd, arg]], env=env)
         else:
             continue
 
-        FreezeRequirements()
+        with open("requirements.txt", "w", encoding="utf-8") as f:
+            subprocess.call(
+                [str(VENV_PYTHON), "-m", "pip", "freeze"],
+                stdout=f,
+                env=env
+            )
 
     except KeyboardInterrupt:
         break
