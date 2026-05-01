@@ -2,11 +2,14 @@ from PySide6.QtWidgets import QApplication
 from localLib.absPath import absPath
 import localLib.PySideTray as PST 
 import sys
+from PySide6.QtCore import QObject, Signal
 
 class App:
     def __init__(self):
         self.app = QApplication(sys.argv)
         self.app.setQuitOnLastWindowClosed(False)
+
+        self.signals = UISignals()
 
         self.tray = TrayIcon(self)
 
@@ -15,6 +18,9 @@ class App:
 
     def Quit(self):
         self.app.quit()
+
+class UISignals(QObject):
+    settooltip = Signal(str)
 
 class TrayIcon:
     def __init__(self, UIApp: App):
@@ -29,6 +35,8 @@ class TrayIcon:
         self.trayIcon.menu.addQAction("!checkable", callback=lambda a: print("Clicked:", a.text()), icon=absPath("resources\\terminalWhite.ico"), stayOpen=False)
         self.trayIcon.menu.addSeparator()
         self.trayIcon.menu.addCheckableQAction("checkable", callback=lambda a: print("Clicked:", a.text()), checked=True, stayOpen=True)
+
+        self.UIApp.signals.settooltip.connect(self.trayIcon.setToolTip)
 
         self.trayIcon.show()
 

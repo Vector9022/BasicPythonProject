@@ -1,6 +1,8 @@
 import threading
 import UIMain
 
+ui = None
+
 class Hello:
     def __init__(self):
         print("Class initialized. Hello!\n")
@@ -10,6 +12,8 @@ class Hello:
 def Main():
     app = Hello()
 
+    ui.signals.settooltip.emit("Hello from thread!")
+    
     print(app.gb)
 
 if __name__ == "__main__":
